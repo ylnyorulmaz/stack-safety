@@ -1,0 +1,55 @@
+name: Validate landing page
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check JavaScript syntax
+        run: node --check app.js
+
+      - name: Validate static assets
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          class Parser(HTMLParser):
+              pass
+
+          html = Path('index.html').read_text(encoding='utf-8')
+          Parser().feed(html)
+
+          for asset in ('styles.css', 'app.js', 'favicon.svg'):
+              if asset not in html:
+                  raise SystemExit(f'Missing asset reference: {asset}')
+              if not Path(asset).exists():
+                  raise SystemExit(f'Missing asset file: {asset}')
+
+          css = Path('styles.css').read_text(encoding='utf-8')
+          if css.count('{') != css.count('}'):
+              raise SystemExit('Unbalanced CSS braces')
+
+          required_sections = ('how-it-works', 'signal', 'stack', 'digest', 'faq', 'early-access')
+          for section_id in required_sections:
+              if f'id="{section_id}"' not in html:
+                  raise SystemExit(f'Missing section: {section_id}')
+
+          print('Static landing page validation passed.')
+          PY
