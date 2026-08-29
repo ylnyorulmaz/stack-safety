@@ -24,7 +24,7 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check app.js
 
-      - name: Validate static assets
+      - name: Validate static assets and page structure
         run: |
           python3 - <<'PY'
           from html.parser import HTMLParser
@@ -36,20 +36,37 @@ jobs:
           html = Path('index.html').read_text(encoding='utf-8')
           Parser().feed(html)
 
-          for asset in ('styles.css', 'app.js', 'favicon.svg'):
+          assets = ('styles.css', 'enhancements.css', 'app.js', 'favicon.svg')
+          for asset in assets:
               if asset not in html:
                   raise SystemExit(f'Missing asset reference: {asset}')
               if not Path(asset).exists():
                   raise SystemExit(f'Missing asset file: {asset}')
 
-          css = Path('styles.css').read_text(encoding='utf-8')
-          if css.count('{') != css.count('}'):
-              raise SystemExit('Unbalanced CSS braces')
+          for css_file in ('styles.css', 'enhancements.css'):
+              css = Path(css_file).read_text(encoding='utf-8')
+              if css.count('{') != css.count('}'):
+                  raise SystemExit(f'Unbalanced CSS braces: {css_file}')
 
-          required_sections = ('how-it-works', 'signal', 'stack', 'digest', 'faq', 'early-access')
+          required_sections = ('how-it-works', 'signal', 'stack', 'evidence', 'digest', 'faq', 'early-access')
           for section_id in required_sections:
               if f'id="{section_id}"' not in html:
                   raise SystemExit(f'Missing section: {section_id}')
+
+          required_copy = (
+              'Only the changes',
+              'Human-reviewed',
+              'Request founding pilot',
+              'Evidence hierarchy',
+              'Illustrative feed',
+          )
+          for phrase in required_copy:
+              if phrase not in html:
+                  raise SystemExit(f'Missing required positioning copy: {phrase}')
+
+          pilot_template = Path('.github/ISSUE_TEMPLATE/pilot.yml')
+          if not pilot_template.exists():
+              raise SystemExit('Missing founding pilot issue template')
 
           print('Static landing page validation passed.')
           PY
