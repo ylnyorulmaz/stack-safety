@@ -1,0 +1,71 @@
+name: Founding pilot request
+description: Request a Stack Safety founding-pilot slot and tell us which technologies you want watched.
+title: "Pilot request: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying Stack Safety early. This issue is public, so **do not post private email addresses, API keys, credentials, customer data, or proprietary stack details**. We can arrange private contact after the initial request.
+
+  - type: checkboxes
+    id: stack
+    attributes:
+      label: What should Stack Safety watch for you?
+      description: Select the public technologies or services that matter to your product.
+      options:
+        - label: OpenAI API
+        - label: Claude / Anthropic API
+        - label: Gemini API
+        - label: Node.js
+        - label: npm
+        - label: React
+        - label: Next.js
+        - label: GitHub
+        - label: Cloudflare
+        - label: Supabase
+        - label: Stripe
+        - label: PostgreSQL
+        - label: Other
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: Preferred digest frequency
+      options:
+        - Weekly
+        - Twice weekly
+        - Critical alerts only
+        - Not sure yet
+    validations:
+      required: true
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: Which best describes you?
+      options:
+        - Solo founder / indie hacker
+        - Small SaaS team
+        - Developer / engineer
+        - Technical product manager
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: pain
+    attributes:
+      label: What would make this useful enough to keep?
+      description: A short public description is enough. Please do not share confidential product details.
+      placeholder: "Example: I use several AI APIs and usually learn about model lifecycle or pricing changes too late."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Pilot expectations
+      options:
+        - label: I understand this is an early, human-reviewed pilot and not a production SLA monitoring service.
+          required: true
