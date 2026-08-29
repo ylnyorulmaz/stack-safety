@@ -4,113 +4,182 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090b0d">
-  <meta name="description" content="Stack Safety is a personalized changelog for the software your product depends on. Know what changed, why it matters, and what to do next.">
-  <meta property="og:title" content="Stack Safety — Know what changed before it hurts">
-  <meta property="og:description" content="A personalized changelog for your software stack. Signal, not release-note noise.">
+  <meta name="description" content="Stack Safety is a personalized radar for the software your product depends on. Get source-backed, human-reviewed changes that actually require your attention.">
+  <meta property="og:title" content="Stack Safety — Only the software changes that matter to your stack">
+  <meta property="og:description" content="Pick your stack. Stack Safety watches the sources, filters the noise, and turns important changes into clear next steps.">
   <meta property="og:type" content="website">
-  <title>Stack Safety — A personalized changelog for your software stack</title>
+  <title>Stack Safety — Only the software changes that matter to your stack</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./enhancements.css">
   <script src="./app.js" defer></script>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
   <div class="page-noise" aria-hidden="true"></div>
+
+  <div class="pilot-banner">
+    <div class="shell pilot-banner-inner">
+      <span><i></i> Founding pilot</span>
+      <p>Weekly or twice-weekly, personalized to your stack.</p>
+      <a href="https://github.com/ylnyorulmaz/stack-safety/issues/new?template=pilot.yml" target="_blank" rel="noreferrer">Request access ↗</a>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="shell nav-shell">
-      <a class="brand" href="#top" aria-label="Stack Safety home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Stack Safety</span></a>
+      <a class="brand" href="#top" aria-label="Stack Safety home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Stack Safety</span>
+      </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation"><span></span><span></span></button>
       <nav class="site-nav" id="site-nav">
-        <a href="#how-it-works">How it works</a><a href="#signal">What you get</a><a href="#stack">Stack</a><a href="#faq">FAQ</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#signal">Signal</a>
+        <a href="#stack">Your stack</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#faq">FAQ</a>
         <a class="nav-github" href="https://github.com/ylnyorulmaz/stack-safety" target="_blank" rel="noreferrer">GitHub ↗</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero section-pad">
+    <section class="hero section-pad hero-v2">
       <div class="hero-glow glow-one" aria-hidden="true"></div><div class="hero-glow glow-two" aria-hidden="true"></div>
       <div class="shell hero-grid">
         <div class="hero-copy reveal">
-          <div class="eyebrow-pill"><span></span> Dependency intelligence for small software teams</div>
-          <h1>Your stack changes<br><em>when you’re not looking.</em></h1>
-          <p class="hero-lede">Stack Safety watches the software your product depends on and tells you only what changed, why it matters, and what action you should take.</p>
-          <div class="hero-actions"><a class="button button-primary" href="#early-access">Watch my stack <span>→</span></a><a class="button button-ghost" href="#digest">See a sample digest</a></div>
-          <div class="hero-proof"><span>Official sources first</span><span>Human-reviewed signals</span><span>No changelog spam</span></div>
+          <div class="eyebrow-pill"><span></span> Personalized dependency radar</div>
+          <h1>Only the changes<br><em>your stack cares about.</em></h1>
+          <p class="hero-lede">Tell Stack Safety what your product runs on. It watches the right sources, filters release-note noise, and sends you the changes that deserve an actual decision.</p>
+          <div class="hero-actions">
+            <a class="button button-primary pilot-link" href="https://github.com/ylnyorulmaz/stack-safety/issues/new?template=pilot.yml" target="_blank" rel="noreferrer">Request founding pilot <span>↗</span></a>
+            <a class="button button-ghost" href="#digest">See a sample digest</a>
+          </div>
+          <div class="hero-proof">
+            <span>Official sources first</span><span>Human-reviewed</span><span>Stack-specific</span><span>No changelog spam</span>
+          </div>
         </div>
 
-        <div class="hero-visual reveal reveal-delay" aria-label="Example Stack Safety decision feed">
-          <div class="terminal-card">
-            <div class="terminal-topbar"><div class="terminal-dots"><span></span><span></span><span></span></div><span class="terminal-label">stack-safety / live radar</span><span class="terminal-live"><i></i> monitoring</span></div>
-            <div class="terminal-stackline"><span>Watching</span><div class="stack-token">Gemini</div><div class="stack-token">Node.js</div><div class="stack-token">Cloudflare</div><div class="stack-token muted-token">+4</div></div>
+        <div class="hero-visual reveal reveal-delay" aria-label="Illustrative Stack Safety decision feed">
+          <div class="terminal-card radar-card">
+            <div class="terminal-topbar">
+              <div class="terminal-dots"><span></span><span></span><span></span></div>
+              <span class="terminal-label">stack-safety / this week</span>
+              <span class="terminal-live"><i></i> radar active</span>
+            </div>
+            <div class="radar-summary">
+              <div><span>WATCHING</span><strong>6 dependencies</strong></div>
+              <div><span>FOUND</span><strong>3 material changes</strong></div>
+              <div><span>NEEDS YOU</span><strong class="accent-text">1 action</strong></div>
+            </div>
             <div class="decision-card critical-card">
               <div class="decision-meta"><span class="severity critical">Action required</span><span>Gemini API</span></div>
-              <h3>Model lifecycle update detected</h3><p>A model used by your stack has a migration path you should review before the published deadline.</p>
-              <div class="decision-footer"><span>Official source verified</span><strong>Review migration →</strong></div>
+              <h3>Model lifecycle change needs review</h3>
+              <p>A model in your selected stack has a migration path worth checking before the next release cycle.</p>
+              <div class="evidence-line"><span>A</span> Official source verified</div>
+              <div class="decision-footer"><span>Impact: possible migration</span><strong>Review next step →</strong></div>
             </div>
-            <div class="decision-card watch-card">
+            <div class="decision-card watch-card compact-decision">
               <div class="decision-meta"><span class="severity watch">Watch</span><span>Node.js</span></div>
-              <h3>New release line available</h3><p>No immediate action. Test during your next dependency maintenance cycle.</p>
-              <div class="decision-footer"><span>Release notes checked</span><strong>Low urgency</strong></div>
+              <h3>New release line available</h3>
+              <div class="decision-footer"><span>No immediate action</span><strong>Next maintenance cycle</strong></div>
             </div>
-            <div class="quiet-row"><span class="quiet-icon">✓</span><span><strong>5 other dependencies are quiet.</strong> Nothing worth interrupting you for.</span></div>
+            <div class="quiet-row"><span class="quiet-icon">✓</span><span><strong>Everything else is quiet.</strong> Nothing worth interrupting you for.</span></div>
           </div>
-          <div class="visual-caption">Illustrative Decision Cards — actual alerts are source-backed and reviewed.</div>
+          <div class="visual-caption">Illustrative feed — production alerts should be source-backed and reviewed.</div>
         </div>
       </div>
     </section>
 
     <section class="logo-strip" aria-label="Example technologies Stack Safety can monitor">
-      <div class="shell logo-strip-inner"><span class="logo-strip-label">Built to watch the tools you already rely on</span><div class="marquee-mask"><div class="tech-marquee">
+      <div class="shell logo-strip-inner"><span class="logo-strip-label">Designed for the stack you already rely on</span><div class="marquee-mask"><div class="tech-marquee">
         <span>OpenAI</span><span>Claude</span><span>Gemini</span><span>Node.js</span><span>npm</span><span>React</span><span>Next.js</span><span>GitHub</span><span>Cloudflare</span><span>Supabase</span><span>Stripe</span><span>PostgreSQL</span>
         <span aria-hidden="true">OpenAI</span><span aria-hidden="true">Claude</span><span aria-hidden="true">Gemini</span><span aria-hidden="true">Node.js</span><span aria-hidden="true">npm</span><span aria-hidden="true">React</span><span aria-hidden="true">Next.js</span><span aria-hidden="true">GitHub</span><span aria-hidden="true">Cloudflare</span><span aria-hidden="true">Supabase</span><span aria-hidden="true">Stripe</span><span aria-hidden="true">PostgreSQL</span>
       </div></div></div>
     </section>
 
+    <section class="proof-strip section-pad-sm">
+      <div class="shell proof-strip-grid reveal">
+        <div><span>01</span><strong>Primary-source first</strong><p>Vendor changelogs, release notes, security and deprecation notices.</p></div>
+        <div><span>02</span><strong>Decision-oriented</strong><p>Action required, watch, informational, or noise.</p></div>
+        <div><span>03</span><strong>Human-reviewed</strong><p>Important alerts are checked before they become customer-facing signal.</p></div>
+        <div><span>04</span><strong>Personalized</strong><p>Your digest is filtered to the stack you actually selected.</p></div>
+      </div>
+    </section>
+
     <section class="section-pad" id="how-it-works">
-      <div class="shell"><div class="section-heading reveal"><p class="kicker">How it works</p><h2>Release notes in.<br><span>Decisions out.</span></h2><p>You tell Stack Safety what your product runs on. It monitors official sources, filters the noise, and turns material changes into clear decisions.</p></div>
+      <div class="shell">
+        <div class="section-heading reveal"><p class="kicker">How it works</p><h2>Release notes in.<br><span>Decisions out.</span></h2><p>The founding version is intentionally simple: choose your stack, let the radar scan, then receive a concise digest you can actually act on.</p></div>
         <div class="steps-grid">
-          <article class="step-card reveal"><span class="step-number">01</span><div class="step-icon"><span class="mini-stack"><i></i><i></i><i></i></span></div><h3>Pick your stack</h3><p>Select the APIs, runtimes, frameworks and infrastructure your product actually depends on.</p></article>
-          <article class="step-card reveal"><span class="step-number">02</span><div class="step-icon pulse-icon"><i></i></div><h3>We watch the sources</h3><p>Official changelogs, release notes, deprecation notices and security updates get checked continuously.</p></article>
-          <article class="step-card reveal"><span class="step-number">03</span><div class="step-icon arrow-icon">↗</div><h3>You get the decision</h3><p>Action required, watch, informational or noise — with evidence and a recommended next step.</p></article>
+          <article class="step-card reveal"><span class="step-number">01</span><div class="step-icon"><span class="mini-stack"><i></i><i></i><i></i></span></div><h3>Pick your stack</h3><p>Select the APIs, models, runtimes, frameworks and infrastructure your product depends on.</p></article>
+          <article class="step-card reveal"><span class="step-number">02</span><div class="step-icon pulse-icon"><i></i></div><h3>The radar checks</h3><p>Official sources are scanned regularly. Wider web and hands-on signals add context when a material change appears.</p></article>
+          <article class="step-card reveal"><span class="step-number">03</span><div class="step-icon arrow-icon">↗</div><h3>You get the decision</h3><p>One digest: what changed, why it may matter, evidence quality, and the recommended next step.</p></article>
         </div>
       </div>
     </section>
 
     <section class="section-pad signal-section" id="signal">
       <div class="shell signal-grid">
-        <div class="signal-copy reveal"><p class="kicker">Signal, not noise</p><h2>Not another feed<br>you have to read.</h2><p>Most changelogs tell you what the vendor shipped. Stack Safety asks a different question: <strong>does this require your attention?</strong></p>
-          <ul class="check-list"><li><span>✓</span> Primary sources before social chatter</li><li><span>✓</span> New events separated from old history</li><li><span>✓</span> Human review before customer-facing alerts</li><li><span>✓</span> Practical next steps instead of summaries</li></ul>
+        <div class="signal-copy reveal"><p class="kicker">Signal, not noise</p><h2>Not another feed<br>you have to read.</h2><p>Most changelogs answer: <em>“What did the vendor ship?”</em> Stack Safety asks the question you actually care about: <strong>“Do I need to do anything?”</strong></p>
+          <ul class="check-list"><li><span>✓</span> New events separated from old history</li><li><span>✓</span> Breaking, security, pricing and lifecycle changes prioritized</li><li><span>✓</span> Community chatter never outranks primary evidence</li><li><span>✓</span> Practical next steps instead of generic summaries</li></ul>
         </div>
         <div class="signal-board reveal reveal-delay"><div class="signal-row signal-head"><span>CHANGE</span><span>VERDICT</span><span>YOU DO</span></div><div class="signal-row"><span>Breaking API change</span><strong class="red">ACTION</strong><span>Migrate</span></div><div class="signal-row"><span>Security release</span><strong class="red">ACTION</strong><span>Patch</span></div><div class="signal-row"><span>Pricing / limits</span><strong class="amber">WATCH</strong><span>Review</span></div><div class="signal-row"><span>Useful new feature</span><strong class="blue">INFO</strong><span>Consider</span></div><div class="signal-row dim-row"><span>Marketing announcement</span><strong>NOISE</strong><span>Ignore</span></div></div>
       </div>
     </section>
 
     <section class="section-pad" id="stack">
-      <div class="shell"><div class="section-heading compact-heading reveal"><p class="kicker">Your stack, your radar</p><h2>Follow what matters<br><span>to your product.</span></h2></div>
-        <div class="stack-cloud reveal">
-          <button class="stack-choice is-selected" type="button" aria-pressed="true"><span>◎</span> OpenAI</button><button class="stack-choice is-selected" type="button" aria-pressed="true"><span>✦</span> Claude</button><button class="stack-choice is-selected" type="button" aria-pressed="true"><span>◇</span> Gemini</button><button class="stack-choice is-selected" type="button" aria-pressed="true"><span>JS</span> Node.js</button><button class="stack-choice" type="button" aria-pressed="false"><span>npm</span> npm</button><button class="stack-choice is-selected" type="button" aria-pressed="true"><span>⚛</span> React</button><button class="stack-choice" type="button" aria-pressed="false"><span>N</span> Next.js</button><button class="stack-choice" type="button" aria-pressed="false"><span>GH</span> GitHub</button><button class="stack-choice is-selected" type="button" aria-pressed="true"><span>CF</span> Cloudflare</button><button class="stack-choice" type="button" aria-pressed="false"><span>S</span> Supabase</button><button class="stack-choice" type="button" aria-pressed="false"><span>$</span> Stripe</button><button class="stack-choice" type="button" aria-pressed="false"><span>PG</span> PostgreSQL</button>
-        </div><p class="stack-caption reveal"><span id="selected-stack-count">6</span> selected in this demo · More integrations can be added as the radar grows.</p>
+      <div class="shell">
+        <div class="section-heading compact-heading reveal"><p class="kicker">Your stack, your radar</p><h2>Choose what deserves<br><span>your attention.</span></h2><p>Try the selector. Your choices are saved locally in this browser for the demo.</p></div>
+        <div class="stack-cloud reveal" id="stack-cloud">
+          <button class="stack-choice is-selected" data-stack="OpenAI" type="button" aria-pressed="true"><span>◎</span> OpenAI</button>
+          <button class="stack-choice is-selected" data-stack="Claude" type="button" aria-pressed="true"><span>✦</span> Claude</button>
+          <button class="stack-choice is-selected" data-stack="Gemini" type="button" aria-pressed="true"><span>◇</span> Gemini</button>
+          <button class="stack-choice is-selected" data-stack="Node.js" type="button" aria-pressed="true"><span>JS</span> Node.js</button>
+          <button class="stack-choice" data-stack="npm" type="button" aria-pressed="false"><span>npm</span> npm</button>
+          <button class="stack-choice is-selected" data-stack="React" type="button" aria-pressed="true"><span>⚛</span> React</button>
+          <button class="stack-choice" data-stack="Next.js" type="button" aria-pressed="false"><span>N</span> Next.js</button>
+          <button class="stack-choice" data-stack="GitHub" type="button" aria-pressed="false"><span>GH</span> GitHub</button>
+          <button class="stack-choice is-selected" data-stack="Cloudflare" type="button" aria-pressed="true"><span>CF</span> Cloudflare</button>
+          <button class="stack-choice" data-stack="Supabase" type="button" aria-pressed="false"><span>S</span> Supabase</button>
+          <button class="stack-choice" data-stack="Stripe" type="button" aria-pressed="false"><span>$</span> Stripe</button>
+          <button class="stack-choice" data-stack="PostgreSQL" type="button" aria-pressed="false"><span>PG</span> PostgreSQL</button>
+        </div>
+        <div class="stack-action-row reveal"><p class="stack-caption"><span id="selected-stack-count">6</span> selected · <span id="selected-stack-names">OpenAI, Claude, Gemini, Node.js, React, Cloudflare</span></p><a class="button button-primary pilot-link" href="https://github.com/ylnyorulmaz/stack-safety/issues/new?template=pilot.yml" target="_blank" rel="noreferrer">Request pilot with this stack ↗</a></div>
+      </div>
+    </section>
+
+    <section class="section-pad evidence-section" id="evidence">
+      <div class="shell evidence-grid">
+        <div class="section-heading reveal"><p class="kicker">Evidence hierarchy</p><h2>Discovery is cheap.<br><span>Verification is the product.</span></h2><p>Stack Safety separates authoritative changes from useful context. A YouTube comparison can reveal a problem; it cannot invent a deprecation.</p></div>
+        <div class="evidence-ladder reveal reveal-delay">
+          <article><span class="tier tier-a">A</span><div><strong>Primary / authoritative</strong><p>Official changelogs, release notes, security advisories, deprecation pages, maintainer releases.</p></div><small>Can support an actionable alert</small></article>
+          <article><span class="tier tier-b">B</span><div><strong>Maintainer / reproducible</strong><p>GitHub issues, maintainer discussion, method-disclosed tests and technical reproductions.</p></div><small>Strong verification/context</small></article>
+          <article><span class="tier tier-c">C</span><div><strong>Independent hands-on</strong><p>Technical blogs, videos and comparisons that show their method and actual workflow.</p></div><small>Useful real-world signal</small></article>
+          <article><span class="tier tier-d">D</span><div><strong>Community anecdote</strong><p>Forums and social reports that may reveal a lead but are not treated as proof.</p></div><small>Discovery only</small></article>
+        </div>
       </div>
     </section>
 
     <section class="section-pad digest-section" id="digest">
-      <div class="shell digest-grid"><div class="digest-copy reveal"><p class="kicker">Your personalized digest</p><h2>One email.<br>Only your stack.</h2><p>Get a concise weekly or twice-weekly briefing filtered to the dependencies you actually use.</p><div class="frequency-pills"><span>Weekly</span><span>Twice weekly</span><span>Critical alerts</span></div></div>
-        <div class="email-frame reveal reveal-delay"><div class="email-chrome"><span></span><span></span><span></span><strong>Stack Safety Digest</strong></div><div class="email-body"><div class="email-brand"><span class="brand-mark small-mark"><i></i><i></i><i></i></span> Stack Safety</div><p class="email-overline">YOUR STACK · WEEKLY RADAR</p><h3>3 things changed.<br>Only 1 needs action.</h3><div class="email-item important"><span class="email-dot"></span><div><strong>Gemini API</strong><p>Review a model lifecycle change before your next deploy.</p></div><span>ACTION</span></div><div class="email-item"><span class="email-dot"></span><div><strong>Node.js</strong><p>A new release line is available. No immediate migration needed.</p></div><span>WATCH</span></div><div class="email-item"><span class="email-dot"></span><div><strong>Cloudflare</strong><p>Two platform updates detected. Neither affects your current setup.</p></div><span>INFO</span></div><div class="email-quiet">Everything else in your stack was quiet.</div></div></div>
+      <div class="shell digest-grid">
+        <div class="digest-copy reveal"><p class="kicker">Your personalized digest</p><h2>One email.<br>Only your stack.</h2><p>Start with a weekly or twice-weekly briefing. If the signal proves valuable, the product can grow into deeper monitoring and code-aware impact analysis later.</p><div class="frequency-pills"><span>Weekly</span><span>Twice weekly</span><span>Critical alerts</span></div></div>
+        <div class="email-frame reveal reveal-delay"><div class="email-chrome"><span></span><span></span><span></span><strong>Stack Safety Digest</strong></div><div class="email-body"><div class="email-brand"><span class="brand-mark small-mark"><i></i><i></i><i></i></span> Stack Safety</div><p class="email-overline">YOUR STACK · WEEKLY RADAR</p><h3>3 things changed.<br>Only 1 needs action.</h3><div class="email-item important"><span class="email-dot"></span><div><strong>Gemini API</strong><p>Review a model lifecycle change before your next release cycle.</p></div><span>ACTION</span></div><div class="email-item"><span class="email-dot"></span><div><strong>Node.js</strong><p>A new release line is available. No immediate migration needed.</p></div><span>WATCH</span></div><div class="email-item"><span class="email-dot"></span><div><strong>Cloudflare</strong><p>Two platform updates were detected; neither currently needs action.</p></div><span>INFO</span></div><div class="email-quiet">Everything else in your selected stack was quiet.</div></div></div>
       </div>
     </section>
 
-    <section class="section-pad audience-section"><div class="shell"><div class="audience-card reveal"><p class="kicker">Built for teams without a release-notes department</p><h2>Small team.<br><span>Large dependency surface.</span></h2><div class="audience-grid"><div><strong>Solo founders</strong><p>Stop checking six vendor blogs between shipping features.</p></div><div><strong>Indie SaaS teams</strong><p>Know when a dependency change deserves roadmap time.</p></div><div><strong>Technical PMs</strong><p>Turn vendor changes into concrete product decisions.</p></div></div></div></div></section>
+    <section class="section-pad audience-section"><div class="shell"><div class="audience-card reveal"><p class="kicker">Built for teams without a release-notes department</p><h2>Small team.<br><span>Large dependency surface.</span></h2><div class="audience-grid"><div><strong>Solo founders</strong><p>Stop checking vendor blogs between shipping features.</p></div><div><strong>Indie SaaS teams</strong><p>Know when dependency changes deserve roadmap time.</p></div><div><strong>Technical PMs</strong><p>Turn vendor changes into concrete product decisions.</p></div></div></div></div></section>
 
     <section class="section-pad faq-section" id="faq"><div class="shell faq-grid"><div class="faq-heading reveal"><p class="kicker">FAQ</p><h2>Before you<br>trust the radar.</h2></div><div class="faq-list reveal reveal-delay">
-      <details open><summary>Is this just a changelog aggregator?<span>+</span></summary><p>No. The product is designed around actionability: source-backed changes are classified by whether they require action, deserve watching, are merely informational, or are noise.</p></details>
-      <details><summary>Does Stack Safety scan my source code?<span>+</span></summary><p>Not in the current product. It monitors the dependencies and services you select. A vendor change may be relevant to your stack without proving that a specific line of your code is affected.</p></details>
-      <details><summary>Where does the information come from?<span>+</span></summary><p>Official changelogs, release notes, security advisories, deprecation notices and other primary vendor sources are the core evidence layer.</p></details>
-      <details><summary>How often would I hear from it?<span>+</span></summary><p>The early product is designed for weekly or twice-weekly personalized digests, with critical changes able to surface separately.</p></details>
+      <details open><summary>Is this just a changelog aggregator?<span>+</span></summary><p>No. The product is organized around actionability and evidence: changes are classified as action required, watch, informational, or noise, then filtered to your selected stack.</p></details>
+      <details><summary>Does Stack Safety scan my source code?<span>+</span></summary><p>Not in the founding pilot. It monitors the dependencies and services you select. A vendor change may be relevant to your stack without proving a specific line of your code is affected.</p></details>
+      <details><summary>Where does the information come from?<span>+</span></summary><p>Official changelogs, release notes, security advisories and deprecation notices are the core evidence layer. Wider web and hands-on sources are used as secondary context, not as substitutes for primary evidence.</p></details>
+      <details><summary>How often would I hear from it?<span>+</span></summary><p>The founding pilot is designed around weekly or twice-weekly personalized digests, with critical changes able to surface separately when appropriate.</p></details>
+      <details><summary>Why start with email instead of a big dashboard?<span>+</span></summary><p>Because the first thing to prove is whether the signal is valuable. Email makes that test immediate; deeper monitoring, history and code-aware impact analysis can follow once users actually depend on it.</p></details>
     </div></div></section>
 
-    <section class="section-pad cta-section" id="early-access"><div class="shell"><div class="cta-card reveal"><div><p class="kicker">Founding pilot</p><h2>Know what changed.<br><span>Keep shipping.</span></h2><p>Stack Safety is being built in public. Follow the repository and the first pilot as the radar expands.</p></div><div class="cta-actions"><a class="button button-primary" href="https://github.com/ylnyorulmaz/stack-safety" target="_blank" rel="noreferrer">Follow on GitHub <span>↗</span></a><a class="button button-ghost" href="#top">Back to top ↑</a></div></div></div></section>
+    <section class="section-pad cta-section" id="early-access"><div class="shell"><div class="cta-card cta-card-v2 reveal"><div><p class="kicker">Founding pilot</p><h2>Stop reading every changelog.<br><span>Watch your stack instead.</span></h2><p>Pick the technologies your product depends on and request a pilot slot. The first version is intentionally small, reviewed and signal-first.</p><div class="cta-proof"><span>✓ No fake urgency</span><span>✓ No generic AI-news feed</span><span>✓ No source-code access required</span></div></div><div class="cta-actions"><a class="button button-primary pilot-link" href="https://github.com/ylnyorulmaz/stack-safety/issues/new?template=pilot.yml" target="_blank" rel="noreferrer">Request pilot <span>↗</span></a><a class="button button-ghost" href="https://github.com/ylnyorulmaz/stack-safety" target="_blank" rel="noreferrer">View source ↗</a></div></div></div></section>
   </main>
 
-  <footer class="site-footer"><div class="shell footer-inner"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Stack Safety</span></a><p>A personalized changelog for your software stack.</p><div class="footer-links"><a href="https://github.com/ylnyorulmaz/stack-safety" target="_blank" rel="noreferrer">GitHub ↗</a><span>© <span id="year"></span> Stack Safety</span></div></div></footer>
+  <footer class="site-footer"><div class="shell footer-inner"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Stack Safety</span></a><p>A personalized radar for the software your product depends on.</p><div class="footer-links"><a href="https://github.com/ylnyorulmaz/stack-safety" target="_blank" rel="noreferrer">GitHub ↗</a><span>© <span id="year"></span> Stack Safety</span></div></div></footer>
 </body>
 </html>
